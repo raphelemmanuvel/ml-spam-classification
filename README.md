@@ -11,4 +11,4 @@ The whole pipeline conists of the following steps:
 5--> k-means clustering and evaluation
 6--> Saving results to a csv file
 
-Although there are multiple methods for solving the problem, tfidf approach is employed here to obtain high predicion accuracy.
+Although there are multiple methods for solving the problem, tfidf approach is employed here to obtain high prediction accuracy.
