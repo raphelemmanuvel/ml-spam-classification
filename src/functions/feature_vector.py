@@ -66,6 +66,10 @@ def bigram_count_vectorizer(preprocessor,untokenized_list):
 # For vector normalization, scikit-learn uses ‘l2’ normalization technique for each document.
 
 # https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
+
+# If you think that extremely high frequency may dominate the result and causing model bias.
+# Normalization can be apply to pipeline easily.
+
 def tfidf_vectorizer(preprocessor, untokenized_list):
     # create the transform
     vectorizer = TfidfVectorizer()
@@ -76,11 +80,33 @@ def tfidf_vectorizer(preprocessor, untokenized_list):
     vector = vectorizer.transform(untokenized_list)
     return vector
 
+#
+# `size` is the dimensionality of the vector.
+#
+# Word2Vec needs large, varied text examples to create its 'dense' embedding vectors per word.
+
+# (It's the competition between many contrasting examples during training which allows the word-vectors to move to
+
+# positions that have interesting distances and spatial-relationships with each other.)
+#
+# If you only have a vocabulary of 30 words, word2vec is unlikely an appropriate technology.
+
+# And if trying to apply it, you'd want to use a vector size much lower than your vocabulary size – ideally much lower.
+
+# For example, texts containing many examples of each of tens-of-thousands of words might justify 100-dimensional word-vectors.
+#
+# Using a higher dimensionality than vocabulary size would more-or-less guarantee 'overfitting'.
+
+# The training could tend toward an idiosyncratic vector for each word – essentially like a 'one-hot' encoding – that would perform better than any other encoding, because there's no cross-word interference forced by representing a larger number of words in a smaller number of dimensions.
+#
+# That'd mean a model that does about as well as possible on the Word2Vec internal nearby-word prediction task – but then awful on other downstream tasks, because there's been no generalizable relative-relations knowledge captured. (The cross-word interference is what the algorithm needs, over many training cycles, to incrementally settle into an arrangement where similar words must be similar in learned weights, and contrasting words different.)
+#
+
 def word2vec(preprocessor, untokenized_list):
-    train_w2v = Word2Vec(untokenized_list,min_count=12,size=50, workers=4)
+    train_w2v = Word2Vec(untokenized_list,min_count=12,size=100, workers=4)
     avg_data = []
     for row in untokenized_list:
-        vec = np.zeros(50)
+        vec = np.zeros(100)
         count = 0
         for word in row:
             try:
@@ -93,6 +119,8 @@ def word2vec(preprocessor, untokenized_list):
     return avg_data
 
 
+# V = ( t(W1)w2v(W1) + t(W2)w2v(W2) +.....+t(Wn)*w2v(Wn))/(t(W1)+t(W2)+....+t(Wn))
+
 def word2vec_tfidf_vectorizer(word2vec_vector, untokenized_list):
     # create the transform
     vectorizer = TfidfVectorizer(max_features=5000)
@@ -104,7 +132,7 @@ def word2vec_tfidf_vectorizer(word2vec_vector, untokenized_list):
     tf_idf_data = tf_idf_data.toarray()
     i = 0
     for row in untokenized_list:
-        vec = [0 for i in range(50)]
+        vec = [0 for i in range(100)]
 
         temp_tfidf = []
         for val in tf_idf_data[i]:

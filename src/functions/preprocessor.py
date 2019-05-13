@@ -22,6 +22,8 @@ def preprocess(text):
     text = re.sub(r'(lt.*gt)','',text)
     text = strip_white_spaces(text)
     text = lower_case_text(text)
+    text = re.sub('\s+', ' ', text)
+    text = re.sub('\.+', '.', text)
     text = replace_contractions(text)
     clean_data = text
     return text

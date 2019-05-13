@@ -4,3 +4,6 @@ https://www.kaggle.com/shashanksai/text-preprocessing-using-python
 https://towardsdatascience.com/machine-learning-text-processing-1d5a2d638958
 https://adataanalyst.com/scikit-learn/countvectorizer-sklearn-example/
 https://rare-technologies.com/word2vec-tutorial/
+https://towardsdatascience.com/3-basic-approaches-in-bag-of-words-which-are-better-than-word-embeddings-c2cbc7398016
+https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68
+https://www.analyticsvidhya.com/blog/2016/11/an-introduction-to-clustering-and-different-methods-of-clustering/
